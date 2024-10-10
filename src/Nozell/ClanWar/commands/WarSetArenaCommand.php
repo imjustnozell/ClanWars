@@ -21,10 +21,7 @@ class WarSetArenaCommand extends BaseSubCommand
 
     public function onRun(CommandSender $sender, string $label, array $args): void
     {
-        if (!$sender->hasPermission("clanwar.command.setarena")) {
-            $sender->sendMessage(TF::RED . "No tienes permiso para usar este comando.");
-            return;
-        }
+
 
         if (!$sender instanceof Player) {
             $sender->sendMessage(TF::RED . "Este comando solo puede ser usado por jugadores.");

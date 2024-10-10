@@ -29,10 +29,6 @@ class WarKickCommand extends BaseSubCommand
             return;
         }
 
-        if (!$sender->hasPermission("clanwar.command.kick")) {
-            $sender->sendMessage(TF::RED . "No tienes permiso para usar este comando.");
-            return;
-        }
 
         $target = $args["player"];
 

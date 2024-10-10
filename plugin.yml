@@ -6,6 +6,8 @@ author: Nozell
 description: Un plugin de guerra de clanes.
 permissions:
   clanwar.default:
+    description: "This permission is for players"
     default: true
   clanwar.admin:
+    description: "This permission is only for administrators"
     default: op

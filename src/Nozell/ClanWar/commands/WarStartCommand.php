@@ -24,10 +24,6 @@ class WarStartCommand extends BaseSubCommand
     public function onRun(CommandSender $sender, string $label, array $args): void
     {
         $main = Main::getInstance();
-        if (!$sender->hasPermission("clanwar.command.start")) {
-            $sender->sendMessage(TF::RED . "No tienes permiso para usar este comando.");
-            return;
-        }
 
         if ($main->getWarFactory()->isWarActive()) {
             $sender->sendMessage(TF::RED . "¡La guerra ya está en marcha!");
