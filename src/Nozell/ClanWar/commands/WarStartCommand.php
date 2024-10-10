@@ -11,13 +11,14 @@ use Nozell\ClanWar\Main;
 use Nozell\ClanWar\tasks\WarStartCountdownTask;
 use Nozell\ClanWar\tasks\WarTask;
 use Nozell\ClanWar\utils\ClanUtils;
+use Nozell\ClanWar\utils\Perms;
 
 class WarStartCommand extends BaseSubCommand
 {
 
     protected function prepare(): void
     {
-        $this->setPermission("clanwar.command.start");
+        $this->setPermission(Perms::admin);
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void

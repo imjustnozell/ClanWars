@@ -5,19 +5,7 @@ api: [5.0.0]
 author: Nozell
 description: Un plugin de guerra de clanes.
 permissions:
-  clanwar.command:
+  clanwar.default:
     default: true
-  clanwar.command.setarena:
-    default: op
-  clanwar.command.info:
-    default: true
-  clanwar.command.join:
-    default: true
-  clanwar.command.leave:
-    default: true
-  clanwar.command.spectate:
-    default: true
-  clanwar.command.start:
-    default: op
-  clanwar.command.kick:
+  clanwar.admin:
     default: op

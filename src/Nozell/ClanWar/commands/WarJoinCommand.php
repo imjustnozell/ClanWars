@@ -11,6 +11,7 @@ use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\utils\ClanUtils;
+use Nozell\ClanWar\utils\Perms;
 use rxduz\factions\player\FactionPlayer;
 use rxduz\factions\player\PlayerManager;
 use rxduz\factions\faction\FactionManager;
@@ -19,7 +20,7 @@ class WarJoinCommand extends BaseSubCommand
 {
     protected function prepare(): void
     {
-        $this->setPermission("clanwar.command.join");
+        $this->setPermission(Perms::Default);
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void

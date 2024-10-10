@@ -11,6 +11,7 @@ use pocketmine\event\server\CommandEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\utils\Mode;
+use Nozell\ClanWar\utils\Perms;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\player\Player;
@@ -84,7 +85,7 @@ class EventListener implements Listener
         $player = $event->getPlayer();
 
 
-        if ($message === "si" && $player->hasPermission("clanwar.command.kick")) {
+        if ($message === "si" && $player->hasPermission(Perms::admin)) {
             $kickQueueManager = $main->getKickQueueManager();
 
 

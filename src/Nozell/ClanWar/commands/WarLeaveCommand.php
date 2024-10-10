@@ -9,12 +9,13 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
+use Nozell\ClanWar\utils\Perms;
 
 class WarLeaveCommand extends BaseSubCommand
 {
     protected function prepare(): void
     {
-        $this->setPermission("clanwar.command.leave");
+        $this->setPermission(Perms::Default);
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void

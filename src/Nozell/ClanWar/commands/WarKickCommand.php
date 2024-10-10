@@ -10,12 +10,13 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
+use Nozell\ClanWar\utils\Perms;
 
 class WarKickCommand extends BaseSubCommand
 {
     protected function prepare(): void
     {
-        $this->setPermission("clanwar.command.kick");
+        $this->setPermission(Perms::admin);
         $this->registerArgument(0, new TargetPlayerArgument(false, "player"));
     }
 

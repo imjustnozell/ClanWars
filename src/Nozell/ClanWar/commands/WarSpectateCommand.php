@@ -11,12 +11,13 @@ use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\sessions\PlayerSession;
 use Nozell\ClanWar\utils\Mode;
+use Nozell\ClanWar\utils\Perms;
 
 class WarSpectateCommand extends BaseSubCommand
 {
     protected function prepare(): void
     {
-        $this->setPermission("clanwar.command.spectate");
+        $this->setPermission(Perms::Default);
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void

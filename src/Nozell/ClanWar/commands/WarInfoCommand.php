@@ -8,13 +8,14 @@ use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
+use Nozell\ClanWar\utils\Perms;
 
 class WarInfoCommand extends BaseSubCommand
 {
 
     protected function prepare(): void
     {
-        $this->setPermission("clanwar.command.info");
+        $this->setPermission(Perms::Default);
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void
