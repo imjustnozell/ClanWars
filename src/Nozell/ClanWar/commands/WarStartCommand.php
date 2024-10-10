@@ -24,12 +24,12 @@ class WarStartCommand extends BaseSubCommand
     {
         $main = Main::getInstance();
 
-        if ($main->getWarFactory()->isWarActive()) {
-            $sender->sendMessage(TF::RED . "¡La guerra ya está en marcha!");
+        if ($main->getWarFactory()->isWarActive() || $main->getWarFactory()->isWarWaiting()) {
+            $sender->sendMessage(TF::RED . "¡No puedes iniciar la guerra porque ya está en marcha o en espera!");
             return;
         }
 
         $main->getScheduler()->scheduleRepeatingTask(new WarStartCountdownTask(ClanUtils::Time_Lapse), 20);
-        $sender->sendMessage(TF::YELLOW . "El contador para la guerra ha comenzado. Los clanes tienen " . ClanUtils::Time_Lapse . "segundos para completar al menos " . ClanUtils::HeightMembers . " miembros.");
+        $sender->sendMessage(TF::YELLOW . "El contador para la guerra ha comenzado. Los clanes tienen " . ClanUtils::Time_Lapse . " segundos para completar al menos " . ClanUtils::HeightMembers . " miembros.");
     }
 }
