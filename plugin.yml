@@ -1,0 +1,10 @@
+name: ClanWar
+main: ClanWar\Main
+version: 1.0.0
+api: [5.0.0]
+author: Nozell
+description: Un plugin de guerra de clanes.
+permissions:
+  clanwar.command:
+    description: Permite usar el comando /war
+    default: true

@@ -1,0 +1,6 @@
+{
+    "require": {
+        "pocketmine/pocketmine-mp": "^5.19",
+        "nozell/commando": "^1.0"
+    }
+}
