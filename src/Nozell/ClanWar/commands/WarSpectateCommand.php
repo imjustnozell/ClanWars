@@ -10,6 +10,7 @@ use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\sessions\PlayerSession;
+use Nozell\ClanWar\utils\Mode;
 
 class WarSpectateCommand extends BaseSubCommand
 {
@@ -42,7 +43,7 @@ class WarSpectateCommand extends BaseSubCommand
             $main->getWarFactory()->addPlayerSession($sender, $session);
         }
 
-        $session->setRole("spectator");
+        $session->setRole(Mode::Spectator);
         $session->applyGameMode();
 
         $sender->sendMessage(TF::GREEN . "Te has unido como espectador a la guerra de clanes.");

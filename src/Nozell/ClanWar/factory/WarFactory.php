@@ -6,34 +6,45 @@ namespace Nozell\ClanWar\factory;
 
 use pocketmine\player\Player;
 use Nozell\ClanWar\sessions\PlayerSession;
+use Nozell\ClanWar\utils\ClanUtils;
+use Nozell\ClanWar\utils\Mode;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\world\particle\HappyVillagerParticle;
+use pocketmine\world\Position;
 use pocketmine\world\sound\PopSound;
+use pocketmine\Server;
 
 class WarFactory
 {
-    private bool $isActive = false;   
-    private bool $isWaiting = false;  
+    private bool $isActive = false;
+    private bool $isWaiting = false;
     private int $startTime;
     private array $clans = [];
     private array $sessions = [];
     private ?string $arena = null;
 
+    private const ARENA_FILE = "arena.json";
+
+    public function __construct()
+    {
+
+        $this->loadArena();
+    }
+
     public function startWarCountdown(): void
     {
-        $this->isWaiting = true;   
+        $this->isWaiting = true;
         $this->broadcastMessage(TF::YELLOW . "La guerra está en espera. Asegúrate de que tu clan tenga al menos 6 miembros.");
     }
 
     public function startWar(): void
     {
-        
         $this->isActive = true;
-        $this->isWaiting = false;  
+        $this->isWaiting = false;
         $this->startTime = time();
 
         foreach ($this->clans as $clanName => $members) {
-            if (count($members) < 6) {
+            if (count($members) < ClanUtils::HeightMembers) {
                 unset($this->clans[$clanName]);
                 $this->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado por no tener suficientes miembros.");
             }
@@ -80,7 +91,7 @@ class WarFactory
     public function addPlayerSession(Player $player, PlayerSession $session): void
     {
         $this->sessions[$player->getName()] = $session;
-        $session->setRole("participant");
+        $session->setRole(Mode::Participant);
         $session->applyGameMode();
     }
 
@@ -92,6 +103,33 @@ class WarFactory
     public function setArena(string $arena): void
     {
         $this->arena = $arena;
+
+
+        $this->saveArena();
+    }
+
+    public function loadArena(): void
+    {
+        $filePath = Server::getInstance()->getDataPath() . self::ARENA_FILE;
+
+        if (file_exists($filePath)) {
+            $data = json_decode(file_get_contents($filePath), true);
+            if (isset($data['arena'])) {
+                $this->arena = $data['arena'];
+            }
+        }
+    }
+
+    public function saveArena(): void
+    {
+        $filePath = Server::getInstance()->getDataPath() . self::ARENA_FILE;
+
+
+        $data = [
+            'arena' => $this->arena
+        ];
+
+        file_put_contents($filePath, json_encode($data, JSON_PRETTY_PRINT));
     }
 
     public function getArena(): ?string
@@ -103,7 +141,7 @@ class WarFactory
     {
         if ($this->arena !== null) {
             $coords = explode(",", $this->arena);
-            $player->teleport(new \pocketmine\world\Position((float) $coords[0], (float) $coords[1], (float) $coords[2], $player->getWorld()));
+            $player->teleport(new Position((float) $coords[0], (float) $coords[1], (float) $coords[2], $player->getWorld()));
             $player->sendMessage(TF::GREEN . "Has sido enviado a la arena.");
         } else {
             $player->sendMessage(TF::RED . "¡La arena no está configurada!");
@@ -115,7 +153,7 @@ class WarFactory
         $playerName = $player->getName();
         if (isset($this->sessions[$playerName])) {
             $session = $this->sessions[$playerName];
-            $session->setRole("spectator");
+            $session->setRole(Mode::Spectator);
             $session->applyGameMode();
             $session->sendToLobby();
             unset($this->sessions[$playerName]);

@@ -10,6 +10,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
+use Nozell\ClanWar\utils\ClanUtils;
 use rxduz\factions\player\FactionPlayer;
 use rxduz\factions\player\PlayerManager;
 use rxduz\factions\faction\FactionManager;
@@ -41,7 +42,7 @@ class WarJoinCommand extends BaseSubCommand
             $sender->sendMessage(TF::RED . "Ya estás participando en la guerra.");
             return;
         }
-        
+
         $factionPlayer = PlayerManager::getInstance()->getSessionByName($sender->getName());
 
         if (!$factionPlayer instanceof FactionPlayer || !$factionPlayer->inFaction()) {
@@ -58,16 +59,16 @@ class WarJoinCommand extends BaseSubCommand
         }
 
         $clanMembers = $main->getWarFactory()->getClans()[$factionName] ?? [];
-        if (count($clanMembers) >= 6) {
-            $sender->sendMessage(TF::RED . "Tu facción ya tiene 6 miembros en la guerra, no puedes unirte.");
+        if (count($clanMembers) >= ClanUtils::HeightMembers) {
+            $sender->sendMessage(TF::RED . "Tu facción ya tiene" . ClanUtils::HeightMembers . "miembros en la guerra, no puedes unirte.");
             return;
         }
-        
+
         if (isset($main->getWarFactory()->getClans()[$factionName])) {
             $main->getWarFactory()->addClan($factionName, $sender);
             $sender->sendMessage(TF::GREEN . "Te has unido a la guerra como miembro de la facción $factionName.");
         } else {
-            
+
             $main->getWarFactory()->addClan($factionName, $sender);
             $sender->sendMessage(TF::GREEN . "Has creado y te has unido al clan de la facción $factionName.");
         }

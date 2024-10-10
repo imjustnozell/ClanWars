@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nozell\ClanWar\sessions;
 
+use Nozell\ClanWar\utils\Mode;
 use pocketmine\player\Player;
 use pocketmine\player\GameMode;
 
@@ -18,7 +19,7 @@ class PlayerSession
     public function __construct(Player $player)
     {
         $this->player = $player;
-        $this->role = "spectator";
+        $this->role = Mode::Spectator;
         $this->applyGameMode();
     }
 
@@ -35,12 +36,12 @@ class PlayerSession
 
     public function isParticipant(): bool
     {
-        return $this->role === "participant";
+        return $this->role === Mode::Participant;
     }
 
     public function isSpectator(): bool
     {
-        return $this->role === "spectator";
+        return $this->role === Mode::Spectator;
     }
 
     public function setInArena(bool $inArena): void

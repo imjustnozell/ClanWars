@@ -19,3 +19,5 @@ permissions:
     default: true
   clanwar.command.start:
     default: op
+  clanwar.command.kick:
+    default: op

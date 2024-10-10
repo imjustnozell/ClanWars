@@ -8,9 +8,8 @@ use pocketmine\plugin\PluginBase;
 use Nozell\ClanWar\factory\WarFactory;
 use Nozell\ClanWar\commands\WarCommand;
 use Nozell\ClanWar\listeners\EventListener;
-use Nozell\ClanWar\tasks\WarStartTask;
-use Nozell\ClanWar\tasks\WarTask;
 use CortexPE\Commando\PacketHooker;
+use Nozell\ClanWar\utils\KickQueueManager;
 use pocketmine\utils\SingletonTrait;
 
 class Main extends PluginBase
@@ -18,6 +17,7 @@ class Main extends PluginBase
     use SingletonTrait;
 
     private WarFactory $warFactory;
+    private KickQueueManager $kickQueueManager;
 
     public function onEnable(): void
     {
@@ -25,6 +25,7 @@ class Main extends PluginBase
         self::setInstance($this);
 
         $this->warFactory = new WarFactory();
+        $this->kickQueueManager = new KickQueueManager();
 
         if (!PacketHooker::isRegistered()) {
             PacketHooker::register($this);
@@ -55,17 +56,8 @@ class Main extends PluginBase
         return $this->warFactory;
     }
 
-
-    public function startWarCountdown(int $seconds): void
+    public function getKickQueueManager(): KickQueueManager
     {
-
-        $this->getScheduler()->scheduleRepeatingTask(new WarStartTask($seconds), 20);
-    }
-
-
-    public function startWarTask(): void
-    {
-
-        $this->getScheduler()->scheduleRepeatingTask(new WarTask(), 20 * 60);
+        return $this->kickQueueManager;
     }
 }

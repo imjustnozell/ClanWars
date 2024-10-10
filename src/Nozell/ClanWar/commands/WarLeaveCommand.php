@@ -28,35 +28,37 @@ class WarLeaveCommand extends BaseSubCommand
 
         $session = $main->getWarFactory()->getPlayerSession($sender);
 
-        if ($session === null || !$session->isParticipant()) {
+        if ($session === null) {
             $sender->sendMessage(TF::RED . "No estás participando en ninguna guerra.");
             return;
         }
 
-        $factionName = $session->getClanName();
-        $clanMembers = $main->getWarFactory()->getClans()[$factionName] ?? [];
-        
-        if (count($clanMembers) === 1) {
-            $main->getWarFactory()->removeClan($factionName);
-            $sender->sendMessage(TF::RED . "Has salido de la guerra, y tu clan $factionName ha sido eliminado porque eras el único miembro.");
-        } else {
-            
+        if ($session->isParticipant()) {
+            $factionName = $session->getClanName();
+            $clanMembers = $main->getWarFactory()->getClans()[$factionName] ?? [];
+
+
+            if (count($clanMembers) === 1) {
+                $main->getWarFactory()->removeClan($factionName);
+                $sender->sendMessage(TF::RED . "Has salido de la guerra, y tu clan $factionName ha sido eliminado porque eras el único miembro.");
+            } else {
+
+                $main->getWarFactory()->removePlayer($sender);
+                $sender->sendMessage(TF::YELLOW . "Has salido de la guerra y has sido removido de tu clan $factionName.");
+            }
+        } elseif ($session->isSpectator()) {
+
             $main->getWarFactory()->removePlayer($sender);
-            $sender->sendMessage(TF::YELLOW . "Has salido de la guerra y has sido removido de tu clan $factionName.");
+            $sender->sendMessage(TF::YELLOW . "Has salido de la guerra como espectador.");
         }
 
         $this->sendPlayerToLobby($sender);
     }
 
-    /**
-     * 
-     * @param Player $player
-     * @return void
-     */
     private function sendPlayerToLobby(Player $player): void
     {
-        $lobbyWorld = $player->getServer()->getWorldManager()->getDefaultWorld(); 
-        $lobbyPosition = $lobbyWorld->getSafeSpawn(); 
+        $lobbyWorld = $player->getServer()->getWorldManager()->getDefaultWorld();
+        $lobbyPosition = $lobbyWorld->getSafeSpawn();
         $player->teleport($lobbyPosition);
         $player->sendMessage(TF::GREEN . "Has sido teletransportado al lobby.");
     }
