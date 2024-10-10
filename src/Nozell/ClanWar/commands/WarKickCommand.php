@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nozell\ClanWar\commands;
 
+use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\args\TargetPlayerArgument;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
@@ -11,13 +12,14 @@ use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\utils\Perms;
+use pocketmine\Server;
 
 class WarKickCommand extends BaseSubCommand
 {
     protected function prepare(): void
     {
         $this->setPermission(Perms::admin);
-        $this->registerArgument(0, new TargetPlayerArgument(false, "player"));
+        $this->registerArgument(0, new RawStringArgument("player"));
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void
@@ -31,6 +33,7 @@ class WarKickCommand extends BaseSubCommand
 
 
         $target = $args["player"];
+        $target = Server::getInstance()->getPlayerByPrefix($target);
 
         if (!$target instanceof Player) {
             $sender->sendMessage(TF::RED . "El jugador seleccionado no está en línea o no existe.");
@@ -55,7 +58,7 @@ class WarKickCommand extends BaseSubCommand
         });
 
         foreach ($main->getServer()->getOnlinePlayers() as $player) {
-            if ($player->hasPermission("clanwar.command.kick")) {
+            if ($player->hasPermission(Perms::admin)) {
                 $player->sendMessage(TF::YELLOW . "Votación para expulsar a " . $target->getName() . " iniciada por " . $sender->getName() . ".");
                 $player->sendMessage(TF::YELLOW . "Escribe 'sí' en el chat para votar.");
             }

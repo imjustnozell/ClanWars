@@ -9,7 +9,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\tasks\WarStartCountdownTask;
-use Nozell\ClanWar\tasks\WarTask;
 use Nozell\ClanWar\utils\ClanUtils;
 use Nozell\ClanWar\utils\Perms;
 

@@ -43,23 +43,6 @@ class EventListener implements Listener
         }
     }
 
-    public function onPlayerCommandPreprocess(CommandEvent $event): void
-    {
-        $main = Main::getInstance();
-        $player = $event->getSender();
-        if (!$player instanceof Player) return;
-
-        $session = $main->getWarFactory()->getPlayerSession($player);
-
-        if ($session !== null && $session->isParticipant() && $main->getWarFactory()->isWarActive()) {
-            $command = strtolower($event->getCommand());
-            if (strpos($command, '/') === 0) {
-                $event->cancel();
-                $player->sendMessage(TF::RED . "No puedes usar comandos mientras participas en la guerra.");
-            }
-        }
-    }
-
     public function onPlayerDamage(EntityDamageByEntityEvent $event): void
     {
         $main = Main::getInstance();

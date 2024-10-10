@@ -27,7 +27,6 @@ class WarFactory
 
     public function __construct()
     {
-
         $this->loadArena();
     }
 
@@ -103,8 +102,6 @@ class WarFactory
     public function setArena(string $arena): void
     {
         $this->arena = $arena;
-
-
         $this->saveArena();
     }
 
@@ -123,7 +120,6 @@ class WarFactory
     public function saveArena(): void
     {
         $filePath = Server::getInstance()->getDataPath() . self::ARENA_FILE;
-
 
         $data = [
             'arena' => $this->arena
@@ -184,24 +180,23 @@ class WarFactory
                     $world = $player->getWorld();
                     $position = $player->getPosition();
 
+
                     $world->addParticle($position, new HappyVillagerParticle());
                     $world->addSound($position, new PopSound());
 
+
                     $player->sendMessage(TF::GOLD . "¡Felicitaciones! Tu clan ha ganado la guerra de clanes.");
                 }
-            }
-        }
-    }
 
-    private function getPlayerByName(string $playerName): ?Player
-    {
-        foreach ($this->sessions as $session) {
-            $player = $session->getPlayer();
-            if ($player->getName() === $playerName) {
-                return $player;
+                unset($this->sessions[$player->getName()]);
             }
+
+
+            Server::getInstance()->broadcastMessage(TF::GREEN . "¡El clan $clanName ha ganado la guerra de clanes!");
+
+
+            unset($this->clans[$clanName]);
         }
-        return null;
     }
 
     public function isPlayerAlive(Player $player): bool
@@ -216,7 +211,7 @@ class WarFactory
             return [];
         }
 
-        return array_filter($this->clans[$clanName], fn($memberName) => $this->isPlayerAlive($this->getPlayerByName($memberName)));
+        return array_filter($this->clans[$clanName], fn($player) => $this->isPlayerAlive($player));
     }
 
     public function getClansAliveCount(): int

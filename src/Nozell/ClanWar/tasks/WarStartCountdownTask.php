@@ -43,18 +43,22 @@ class WarStartCountdownTask extends Task
             if ($this->countdown <= 10) {
                 foreach (Server::getInstance()->getOnlinePlayers() as $player) {
 
-                    $player->sendTitle(
-                        TF::GOLD . (string)$this->countdown,
-                        TF::GREEN . "La guerra está por comenzar...",
-                        5,
-                        15,
-                        5
-                    );
+                    $session = $main->getWarFactory()->getPlayerSession($player);
+                    if ($session !== null && $session->isParticipant()) {
 
-                    $world = $player->getWorld();
-                    $position = $player->getPosition();
-                    $sound = new XpCollectSound();
-                    $world->addSound($position, $sound);
+                        $player->sendTitle(
+                            TF::GOLD . (string)$this->countdown,
+                            TF::GREEN . "La guerra está por comenzar...",
+                            5,
+                            15,
+                            5
+                        );
+
+                        $world = $player->getWorld();
+                        $position = $player->getPosition();
+                        $sound = new XpCollectSound();
+                        $world->addSound($position, $sound);
+                    }
                 }
             }
 
@@ -64,9 +68,19 @@ class WarStartCountdownTask extends Task
             $clans = $main->getWarFactory()->getClans();
 
             foreach ($clans as $clanName => $members) {
-                if (count($members) < ClanUtils::HeightMembers) {
+                foreach ($members as $playerName => $player) {
+                    $onlinePlayer = Server::getInstance()->getPlayerExact($playerName);
+
+
+                    if ($onlinePlayer === null) {
+                        unset($clans[$clanName][$playerName]);
+                        $main->getWarFactory()->broadcastMessage(TF::RED . "El jugador $playerName ha sido eliminado del clan $clanName por no estar online.");
+                    }
+                }
+
+                if (empty($clans[$clanName])) {
                     $main->getWarFactory()->removeClan($clanName);
-                    Server::getInstance()->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado por no cumplir con el requisito de " . ClanUtils::HeightMembers . " miembros.");
+                    Server::getInstance()->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado por no tener suficientes miembros.");
                 }
             }
 
