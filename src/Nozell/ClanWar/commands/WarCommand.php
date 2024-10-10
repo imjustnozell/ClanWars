@@ -15,6 +15,7 @@ class WarCommand extends BaseCommand
 
     protected function prepare(): void
     {
+        $this->setPermission("clanwar.command");
         $main = Main::getInstance();
         $this->registerSubCommand(new WarStartCommand($main, "start", "Inicia la guerra de clanes"));
         $this->registerSubCommand(new WarJoinCommand($main, "join", "Únete a la guerra de clanes"));
