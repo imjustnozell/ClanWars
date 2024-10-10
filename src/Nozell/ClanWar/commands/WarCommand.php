@@ -21,6 +21,7 @@ class WarCommand extends BaseCommand
         $this->registerSubCommand(new WarSpectateCommand($main, "spectate", "Únete como espectador"));
         $this->registerSubCommand(new WarSetArenaCommand($main, "setarena", "Define la posición de la arena"));
         $this->registerSubCommand(new WarInfoCommand($main, "info", "Muestra información de la guerra"));
+        $this->registerSubCommand(new WarLeaveCommand($main, "leave", "use to leave the war clans"));
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void

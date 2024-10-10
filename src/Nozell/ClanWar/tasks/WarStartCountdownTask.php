@@ -16,36 +16,40 @@ class WarStartCountdownTask extends Task
     public function __construct(int $countdown)
     {
         $this->countdown = $countdown;
+        $main = Main::getInstance();
+        
+        $main->getWarFactory()->startWarCountdown();
     }
 
     public function onRun(): void
     {
         $main = Main::getInstance();
-        if ($this->countdown > 0) {
 
-            Server::getInstance()->broadcastMessage(TF::YELLOW . "Tiempo restante para la guerra: " . $this->countdown . " segundos.");
+        if ($this->countdown > 0) {
+            
+            Server::getInstance()->broadcastMessage(TF::YELLOW . "La guerra está en espera. Tiempo restante: " . $this->countdown . " segundos.");
+            Server::getInstance()->broadcastMessage(TF::GOLD . "Asegúrate de que tu clan tenga al menos 6 miembros para participar.");
             $this->countdown--;
         } else {
-
+            
             $clans = $main->getWarFactory()->getClans();
+
             foreach ($clans as $clanName => $members) {
                 if (count($members) < 6) {
-
+                    
                     $main->getWarFactory()->removeClan($clanName);
                     Server::getInstance()->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado por no cumplir con el requisito de 6 miembros.");
                 }
             }
-
-
+            
             if (count($main->getWarFactory()->getClans()) > 0) {
-                $main->getWarFactory()->startWar();
+                $main->getWarFactory()->startWar();  
                 Server::getInstance()->broadcastMessage(TF::GREEN . "¡La guerra de clanes ha comenzado!");
             } else {
-
+                
                 Server::getInstance()->broadcastMessage(TF::RED . "No hay suficientes clanes para iniciar la guerra.");
             }
-
-
+            
             $this->getHandler()?->cancel();
         }
     }

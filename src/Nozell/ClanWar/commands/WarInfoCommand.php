@@ -27,8 +27,15 @@ class WarInfoCommand extends BaseSubCommand
 
         $timeElapsed = $main->getWarFactory()->getTimeElapsed();
         $clansAlive = $main->getWarFactory()->getClansAliveCount();
+        $clans = $main->getWarFactory()->getClans();
 
         $sender->sendMessage(TF::GREEN . "Tiempo transcurrido: " . gmdate("i:s", $timeElapsed));
         $sender->sendMessage(TF::GREEN . "Clanes vivos: " . $clansAlive);
+
+        foreach ($clans as $clanName => $members) {
+            $aliveMembers = $main->getWarFactory()->getAlivePlayersInClan($clanName);
+            $aliveCount = count($aliveMembers);
+            $sender->sendMessage(TF::YELLOW . "Clan: " . TF::GOLD . $clanName . TF::YELLOW . " | Miembros vivos: " . TF::GOLD . $aliveCount);
+        }
     }
 }

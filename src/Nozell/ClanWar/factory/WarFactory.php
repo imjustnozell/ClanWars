@@ -12,18 +12,25 @@ use pocketmine\world\sound\PopSound;
 
 class WarFactory
 {
-    private bool $isActive = false;
+    private bool $isActive = false;   
+    private bool $isWaiting = false;  
     private int $startTime;
     private array $clans = [];
     private array $sessions = [];
     private ?string $arena = null;
 
+    public function startWarCountdown(): void
+    {
+        $this->isWaiting = true;   
+        $this->broadcastMessage(TF::YELLOW . "La guerra está en espera. Asegúrate de que tu clan tenga al menos 6 miembros.");
+    }
 
     public function startWar(): void
     {
+        
         $this->isActive = true;
+        $this->isWaiting = false;  
         $this->startTime = time();
-
 
         foreach ($this->clans as $clanName => $members) {
             if (count($members) < 6) {
@@ -31,7 +38,6 @@ class WarFactory
                 $this->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado por no tener suficientes miembros.");
             }
         }
-
 
         if (count($this->clans) > 0) {
             $this->broadcastMessage(TF::YELLOW . "La guerra de clanes ha comenzado.");
@@ -41,29 +47,28 @@ class WarFactory
         }
     }
 
-
     public function isWarActive(): bool
     {
         return $this->isActive;
     }
 
+    public function isWarWaiting(): bool
+    {
+        return $this->isWaiting;
+    }
 
     public function getTimeElapsed(): int
     {
         return time() - $this->startTime;
     }
 
-
     public function addClan(string $clanName, Player $player): void
     {
-
         if (!isset($this->clans[$clanName])) {
             $this->clans[$clanName] = [];
         }
 
-
         $this->clans[$clanName][$player->getName()] = $player;
-
 
         if (!isset($this->sessions[$player->getName()])) {
             $session = new PlayerSession($player);
@@ -72,7 +77,6 @@ class WarFactory
         }
     }
 
-
     public function addPlayerSession(Player $player, PlayerSession $session): void
     {
         $this->sessions[$player->getName()] = $session;
@@ -80,24 +84,20 @@ class WarFactory
         $session->applyGameMode();
     }
 
-
     public function getPlayerSession(Player $player): ?PlayerSession
     {
         return $this->sessions[$player->getName()] ?? null;
     }
-
 
     public function setArena(string $arena): void
     {
         $this->arena = $arena;
     }
 
-
     public function getArena(): ?string
     {
         return $this->arena;
     }
-
 
     public function sendPlayerToArena(Player $player): void
     {
@@ -120,27 +120,19 @@ class WarFactory
             $session->sendToLobby();
             unset($this->sessions[$playerName]);
 
-
             $clanName = $session->getClanName();
             if (isset($this->clans[$clanName])) {
-
                 $this->clans[$clanName] = array_filter($this->clans[$clanName], fn($member) => $member->getName() !== $playerName);
                 if (empty($this->clans[$clanName])) {
-
                     unset($this->clans[$clanName]);
                     $this->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado.");
                 }
             }
 
-
             if (count($this->clans) === 1) {
                 $remainingClan = array_keys($this->clans)[0];
                 $this->broadcastMessage(TF::GREEN . "¡El clan $remainingClan ha ganado la guerra de clanes!");
-
-
                 $this->celebrateWin($remainingClan);
-
-
                 $this->isActive = false;
             }
         }
@@ -154,10 +146,8 @@ class WarFactory
                     $world = $player->getWorld();
                     $position = $player->getPosition();
 
-
                     $world->addParticle($position, new HappyVillagerParticle());
                     $world->addSound($position, new PopSound());
-
 
                     $player->sendMessage(TF::GOLD . "¡Felicitaciones! Tu clan ha ganado la guerra de clanes.");
                 }
@@ -190,6 +180,7 @@ class WarFactory
 
         return array_filter($this->clans[$clanName], fn($memberName) => $this->isPlayerAlive($this->getPlayerByName($memberName)));
     }
+
     public function getClansAliveCount(): int
     {
         return count($this->clans);
@@ -214,5 +205,4 @@ class WarFactory
     {
         return $this->clans;
     }
-
 }
