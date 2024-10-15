@@ -11,10 +11,11 @@ use Nozell\ClanWar\Main;
 use Nozell\ClanWar\sessions\SessionManager;
 use Nozell\ClanWar\utils\ClanUtils;
 use Nozell\ClanWar\utils\WarState;
+use Nozell\ClanWar\utils\WarUtils;
 use pocketmine\Server;
 use pocketmine\world\sound\XpCollectSound;
 
-class WarStartCountdownTask extends Task
+class WarStartTask extends Task
 {
     private int $countdown;
 
@@ -84,7 +85,7 @@ class WarStartCountdownTask extends Task
 
                     if (is_null($onlinePlayer)) {
                         $clanManager->removePlayerFromClan($clanName, $player);
-                        $main->getWarFactory()->broadcastMessage(TF::RED . "El jugador $playerName ha sido eliminado del clan $clanName por no estar online.");
+                        WarUtils::getInstance()->broadcastMessage(TF::RED . "El jugador $playerName ha sido eliminado del clan $clanName por no estar online.");
                     }
                 }
 

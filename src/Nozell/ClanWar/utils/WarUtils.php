@@ -1,12 +1,11 @@
 <?php
 
-namespace Nozell\ClanWar\factory;
+namespace Nozell\ClanWar\utils;
 
 use Nozell\ClanWar\clan\ClanManager;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\sessions\SessionManager;
-use Nozell\ClanWar\utils\ClanUtils;
-use Nozell\ClanWar\utils\WarState;
+use Nozell\ClanWar\tasks\WarCelebrate;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\world\particle\HugeExplodeParticle;
@@ -19,31 +18,9 @@ use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\SingletonTrait;
 
 
-class WarFactory
+class WarUtils
 {
     use SingletonTrait;
-
-    public function startWar(): void
-    {
-        WarState::getInstance()->setActive();
-
-        $clan = ClanManager::getInstance()->getInstance();
-
-        foreach ($clan->getAllClans() as $clanName => $members) {
-            if (count($members) < ClanUtils::HeightMembers) {
-                $clan->removeClan($clanName);
-                $this->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado por no tener suficientes miembros.");
-            }
-        }
-
-        if (count($clan->getAllClans()) > 1) {
-            $this->broadcastMessage(TF::YELLOW . "La guerra de clanes ha comenzado.");
-        } else {
-            $this->broadcastMessage(TF::RED . "No hay suficientes clanes para iniciar la guerra.");
-            WarState::getInstance()->endWar();
-        }
-    }
-
 
     public function celebrateWin(string $clanName): void
     {
@@ -72,32 +49,7 @@ class WarFactory
         $world = $player->getWorld();
         $position = $player->getPosition();
 
-        Main::getInstance()->getScheduler()->scheduleRepeatingTask(new class($world, $position) extends Task {
-            private $count = 0;
-            private $world;
-            private $position;
-
-            public function __construct($world, $position)
-            {
-                $this->world = $world;
-                $this->position = $position;
-            }
-
-            public function onRun(): void
-            {
-
-                $this->world->addParticle($this->position, new HugeExplodeParticle());
-                $this->world->addParticle($this->position, new HappyVillagerParticle());
-                $this->world->addSound($this->position, new PopSound());
-                $this->world->addSound($this->position, new AnvilFallSound());
-
-
-                $this->count++;
-                if ($this->count >= 5) {
-                    $this->getHandler()?->cancel();
-                }
-            }
-        }, 20);
+        Main::getInstance()->getScheduler()->scheduleRepeatingTask(new WarCelebrate($world, $position), 20);
     }
 
     private function removePlayersAndClan(string $clanName): void

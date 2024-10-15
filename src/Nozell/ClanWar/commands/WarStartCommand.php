@@ -9,6 +9,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\tasks\WarStartCountdownTask;
+use Nozell\ClanWar\tasks\WarStartTask;
 use Nozell\ClanWar\utils\ClanUtils;
 use Nozell\ClanWar\utils\Perms;
 use Nozell\ClanWar\utils\WarState;
@@ -29,7 +30,7 @@ class WarStartCommand extends BaseSubCommand
 
         if (WarState::getInstance()->isWarWaiting()) return;
 
-        $main->getScheduler()->scheduleRepeatingTask(new WarStartCountdownTask(ClanUtils::Time_Lapse), 20);
+        $main->getScheduler()->scheduleRepeatingTask(new WarStartTask(ClanUtils::Time_Lapse), 20);
         $sender->sendMessage(TF::YELLOW . "El contador para la guerra ha comenzado. Los clanes tienen " . ClanUtils::Time_Lapse . " segundos para completar al menos " . ClanUtils::HeightMembers . " miembros.");
     }
 }
