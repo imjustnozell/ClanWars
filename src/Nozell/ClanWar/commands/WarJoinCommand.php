@@ -30,7 +30,7 @@ class WarJoinCommand extends BaseSubCommand
         if (!$sender instanceof Player) return;
 
 
-        
+
 
         $factionPlayer = PlayerManager::getInstance()->getSessionByName($sender->getName());
         if (!$factionPlayer instanceof FactionPlayer || !$factionPlayer->inFaction()) {
@@ -42,10 +42,7 @@ class WarJoinCommand extends BaseSubCommand
         $faction = FactionManager::getInstance()->getFactionByName($factionName);
 
 
-        if ($faction === null) {
-            $sender->sendMessage(TF::RED . "Hubo un error al intentar obtener tu facción. Inténtalo de nuevo.");
-            return;
-        }
+        if ($faction === null) return;
 
         $ev = new PlayerWarJoinEvent($sender, $factionName);
         $ev->call();
