@@ -21,11 +21,8 @@ class WarStartCountdownTask extends Task
     public function __construct(int $countdown)
     {
         $this->countdown = $countdown;
-        $main = Main::getInstance();
 
-
-        WarState::getInstance()->setActive();
-
+        WarState::getInstance()->setWaiting();
 
         Server::getInstance()->broadcastMessage(TF::YELLOW . "La guerra está en espera. Tiempo restante: " . $this->countdown . " segundos.");
         Server::getInstance()->broadcastMessage(TF::GOLD . "Asegúrate de que tu clan tenga al menos " . ClanUtils::HeightMembers . " miembros para participar.");
@@ -100,7 +97,7 @@ class WarStartCountdownTask extends Task
 
 
             if (count($clanManager->getAllClans()) > 0) {
-                $main->getWarFactory()->startWar();
+                WarState::getInstance()->setActive();
                 Server::getInstance()->broadcastMessage(TF::GREEN . "¡La guerra de clanes ha comenzado!");
             } else {
                 Server::getInstance()->broadcastMessage(TF::RED . "No hay suficientes clanes para iniciar la guerra.");

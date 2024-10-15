@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Nozell\ClanWar\listeners;
 
 use Nozell\ClanWar\arena\Arena;
-use Nozell\ClanWar\clan\Clan;
 use Nozell\ClanWar\clan\ClanManager;
 use Nozell\ClanWar\events\ClanCreateEvent;
 use Nozell\ClanWar\events\ClanEliminateEvent;
@@ -16,7 +15,6 @@ use Nozell\ClanWar\factory\WarFactory;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\server\CommandEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\sessions\SessionManager;
@@ -33,7 +31,6 @@ class EventListener implements Listener
 
     public function onPlayerDeath(PlayerDeathEvent $event): void
     {
-        $main = Main::getInstance();
         $player = $event->getPlayer();
         $session = SessionManager::getInstance()->getPlayerSession($player);
 
@@ -45,14 +42,15 @@ class EventListener implements Listener
             $ev->call();
             $player->sendMessage(TF::YELLOW . "Has sido eliminado. Ahora estás en modo espectador.");
         }
+        if(WarState::getInstance()->isWarActive()){
 
         $clan = ClanManager::getInstance();
         if (count($clan->getAllClans()) <= 1) {
-            $remainingClan = array_keys($clan->getAllClans())[0];
-            WarFactory::getInstance()->broadcastMessage(TF::GREEN . "¡El clan $remainingClan ha ganado la guerra de clanes!");
-            WarFactory::getInstance()->celebrateWin($remainingClan);
+            WarFactory::getInstance()->broadcastMessage(TF::GREEN . "¡El clan {$session->getClanName()} ha ganado la guerra de clanes!");
+            WarFactory::getInstance()->celebrateWin($session->getClanName());
             WarState::getInstance()->endWar();
         }
+    }
     }
 
     public function onPlayerQuit(PlayerQuitEvent $event): void

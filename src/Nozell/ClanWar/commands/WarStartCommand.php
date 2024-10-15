@@ -27,7 +27,7 @@ class WarStartCommand extends BaseSubCommand
 
         if (WarState::getInstance()->isWarActive()) return;
 
-        if (WarState::getInstance()->hasWarEnded()) return;
+        if (WarState::getInstance()->isWarWaiting()) return;
 
         $main->getScheduler()->scheduleRepeatingTask(new WarStartCountdownTask(ClanUtils::Time_Lapse), 20);
         $sender->sendMessage(TF::YELLOW . "El contador para la guerra ha comenzado. Los clanes tienen " . ClanUtils::Time_Lapse . " segundos para completar al menos " . ClanUtils::HeightMembers . " miembros.");
