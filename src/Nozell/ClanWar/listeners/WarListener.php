@@ -95,7 +95,7 @@ class WarListener implements Listener
                 $clan->removePlayerFromClan($clanName, $player);
 
 
-                if ($clan->getClan($clanName)->isEmpty()) {
+                if ($clan->getClan($clanName)->getPlayerCount() <= 0) {
                     $clan->removeClan($clanName);
                     WarUtils::getInstance()->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado.");
                 }
