@@ -79,9 +79,9 @@ class WarListener implements Listener
         $player = $ev->getPlayer();
         $clanName = $ev->getClanName();
         $player->sendMessage("Has sido eliminado de la guerra de clanes.");
-        $clan = ClanManager::getInstance();
-        $session = SessionManager::getInstance();
-        $session = $session->getPlayerSession($player);
+        $clanManager = ClanManager::getInstance();
+        $sessionManager = SessionManager::getInstance();
+        $session = $sessionManager->getPlayerSession($player);
 
         if ($session !== null) {
 
@@ -89,18 +89,20 @@ class WarListener implements Listener
             $session->applyGameMode();
             $session->sendToLobby();
 
-            SessionManager::getInstance()->removePlayer($player);
+            $sessionManager->removePlayer($player);
 
-            if ($clan->clanExists($clanName)) {
-                $clan->removePlayerFromClan($clanName, $player);
+            if ($clanManager->clanExists($clanName)) {
+                $clanManager->removePlayerFromClan($clanName, $player);
 
-                if (is_null($clan->getClan($clanName)->getPlayers())) {
-                    $clan->removeClan($clanName);
+                $clan = $clanManager->getClan($clanName);
+                if ($clan !== null && empty($clan->getPlayers())) {
+                    $clanManager->removeClan($clanName);
                     WarUtils::getInstance()->broadcastMessage(TF::RED . "El clan $clanName ha sido eliminado.");
                 }
             }
         }
     }
+
     public function spectate(SetSpectatorEvent $ev): void
     {
         $player = $ev->getPlayer();
