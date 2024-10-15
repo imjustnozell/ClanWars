@@ -24,51 +24,51 @@ class WarListener implements Listener
     public function onPlayerJoinWar(PlayerWarJoinEvent $ev): void
     {
         $player = $ev->getPlayer();
-
         $clanName = $ev->getClanName();
-
         $warState = WarState::getInstance();
+        $clanManager = ClanManager::getInstance();
+        $sessionManager = SessionManager::getInstance();
+
         if (!$warState->isWarWaiting()) {
             $player->sendMessage(TF::RED . "No puedes unirte a la guerra porque ya ha comenzado o no está en estado de espera.");
             $ev->cancel();
             return;
         }
 
-        $clan = ClanManager::getInstance();
-
-        $session = SessionManager::getInstance();
-
-        if (!$session->hasPlayerSession($player)) {
-
-            $session->addPlayer($player);
-
-            $event = new ClanCreateEvent($clanName);
-
-            $event->call();
-
-            $session->getPlayerSession($player)->setClanName($clanName);
+        if ($sessionManager->hasPlayerSession($player)) {
+            $playerSession = $sessionManager->getPlayerSession($player);
+            if ($playerSession->isParticipant()) {
+                $player->sendMessage(TF::RED . "Ya estás participando en la guerra.");
+                $ev->cancel();
+                return;
+            }
+        } else {
+            $sessionManager->addPlayer($player);
+            $sessionManager->getPlayerSession($player)->setClanName($clanName);
         }
 
-        if ($clan->getClan($clanName)->getPlayerCount() >= ClanUtils::HeightMembers) {
+        $clan = $clanManager->getClan($clanName);
+        if ($clan !== null && $clan->getPlayerCount() >= ClanUtils::HeightMembers) {
             $player->sendMessage(TF::RED . "Tu facción ya tiene " . ClanUtils::HeightMembers . " miembros en la guerra, no puedes unirte.");
             $ev->cancel();
             return;
         }
 
+        if ($clan === null) {
+            $clanManager->createClan($clanName);
+            $event = new ClanCreateEvent($clanName);
+            $event->call();
+        }
 
-        $player->sendMessage("¡Bienvenido a la guerra de clanes, " . $player->getName() . "!");
-        $clan->addPlayerToClan($clanName, $player);
-        $session->getPlayerSession($player)->setClanName($clanName);
-        $session = $session->getPlayerSession($player);
-        $session->setRole(Mode::Participant);
-        $session->applyGameMode();
+        $clanManager->addPlayerToClan($clanName, $player);
+
+        $playerSession = $sessionManager->getPlayerSession($player);
+        $playerSession->setRole(Mode::Participant);
+        $playerSession->applyGameMode();
+
         Arena::getInstance()->sendPlayerToArena($player);
 
-        if ($session !== null && $session->isParticipant()) {
-            $player->sendMessage(TF::RED . "Ya estás participando en la guerra.");
-            $ev->cancel();
-            return;
-        }
+        $player->sendMessage(TF::GREEN . "¡Bienvenido a la guerra de clanes, " . $player->getName() . "!");
     }
 
     public function onPlayerEliminate(PlayerEliminateEvent $ev): void
