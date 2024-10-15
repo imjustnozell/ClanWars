@@ -34,13 +34,9 @@ class WarListener implements Listener
             return;
         }
 
-        if (is_null($clanName)) return;
-
         $clan = ClanManager::getInstance();
 
         $session = SessionManager::getInstance();
-
-        $clan->addPlayerToClan($clanName, $player);
 
         if (!$session->hasPlayerSession($player)) {
 
@@ -61,6 +57,7 @@ class WarListener implements Listener
 
 
         $player->sendMessage("¡Bienvenido a la guerra de clanes, " . $player->getName() . "!");
+        $clan->addPlayerToClan($clanName, $player);
         $session->getPlayerSession($player)->setClanName($clanName);
         $session = $session->getPlayerSession($player);
         $session->setRole(Mode::Participant);
