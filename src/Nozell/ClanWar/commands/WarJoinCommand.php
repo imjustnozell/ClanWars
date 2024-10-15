@@ -29,9 +29,6 @@ class WarJoinCommand extends BaseSubCommand
 
         if (!$sender instanceof Player) return;
 
-
-
-
         $factionPlayer = PlayerManager::getInstance()->getSessionByName($sender->getName());
         if (!$factionPlayer instanceof FactionPlayer || !$factionPlayer->inFaction()) {
             $sender->sendMessage(TF::RED . "No puedes unirte a la guerra si no perteneces a una facción.");

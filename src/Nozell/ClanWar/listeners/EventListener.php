@@ -28,20 +28,29 @@ class EventListener implements Listener
         $player = $event->getPlayer();
         $session = SessionManager::getInstance()->getPlayerSession($player);
 
-        if ($session !== null && WarState::getInstance()->isWarActive()) {
+        $source = $player->getLastDamageCause();
+        if (!$source instanceof EntityDamageByEntityEvent) return;
+        $killer = $source->getDamager();
+        if ($killer instanceof Player) {
+            $killerSession = SessionManager::getInstance()->getPlayerSession($killer);
+        }
 
+        if ($session !== null && WarState::getInstance()->isWarActive()) {
             $session->setRole(Mode::Spectator);
             $session->applyGameMode();
+
             $ev = new PlayerEliminateEvent($player, $session->getClanName());
             $ev->call();
             $player->sendMessage(TF::YELLOW . "Has sido eliminado. Ahora estás en modo espectador.");
         }
-        if (WarState::getInstance()->isWarActive()) {
 
-            $clan = ClanManager::getInstance();
-            if (count($clan->getAllClans()) <= 1) {
-                WarUtils::getInstance()->broadcastMessage(TF::GREEN . "¡El clan {$session->getClanName()} ha ganado la guerra de clanes!");
-                WarUtils::getInstance()->celebrateWin($session->getClanName());
+        if (WarState::getInstance()->isWarActive() && isset($killerSession)) {
+            $clanManager = ClanManager::getInstance();
+
+            if (count($clanManager->getAllClans()) <= 1) {
+                $clanName = $killerSession->getClanName();
+                WarUtils::getInstance()->broadcastMessage(TF::GREEN . "¡El clan {$clanName} ha ganado la guerra de clanes!");
+                WarUtils::getInstance()->celebrateWin($clanName);
                 WarState::getInstance()->endWar();
             }
         }
