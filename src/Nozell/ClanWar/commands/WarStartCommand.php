@@ -11,6 +11,7 @@ use Nozell\ClanWar\Main;
 use Nozell\ClanWar\tasks\WarStartCountdownTask;
 use Nozell\ClanWar\utils\ClanUtils;
 use Nozell\ClanWar\utils\Perms;
+use Nozell\ClanWar\utils\WarState;
 
 class WarStartCommand extends BaseSubCommand
 {
@@ -24,10 +25,9 @@ class WarStartCommand extends BaseSubCommand
     {
         $main = Main::getInstance();
 
-        if ($main->getWarFactory()->isWarActive() || $main->getWarFactory()->isWarWaiting()) {
-            $sender->sendMessage(TF::RED . "¡No puedes iniciar la guerra porque ya está en marcha o en espera!");
-            return;
-        }
+        if (WarState::getInstance()->isWarActive()) return;
+
+        if (WarState::getInstance()->hasWarEnded()) return;
 
         $main->getScheduler()->scheduleRepeatingTask(new WarStartCountdownTask(ClanUtils::Time_Lapse), 20);
         $sender->sendMessage(TF::YELLOW . "El contador para la guerra ha comenzado. Los clanes tienen " . ClanUtils::Time_Lapse . " segundos para completar al menos " . ClanUtils::HeightMembers . " miembros.");

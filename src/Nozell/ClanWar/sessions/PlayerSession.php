@@ -64,12 +64,10 @@ class PlayerSession
         return $this->alive;
     }
 
-
     public function getPlayer(): Player
     {
         return $this->player;
     }
-
 
     public function applyGameMode(): void
     {
@@ -86,12 +84,10 @@ class PlayerSession
         $this->player->sendMessage("Has salido de la arena y fuiste llevado al lobby.");
     }
 
-
     public function setClanName(string $clanName): void
     {
         $this->clanName = $clanName;
     }
-
 
     public function getClanName(): string
     {

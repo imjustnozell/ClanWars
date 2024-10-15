@@ -11,6 +11,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
+use Nozell\ClanWar\sessions\SessionManager;
 use Nozell\ClanWar\utils\Perms;
 use pocketmine\Server;
 
@@ -40,8 +41,8 @@ class WarKickCommand extends BaseSubCommand
             return;
         }
 
-        $session = $main->getWarFactory()->getPlayerSession($target);
-        if ($session === null || !$session->isParticipant()) {
+        $session = SessionManager::getInstance()->getPlayerSession($target);
+        if (is_null($session) || !$session->isParticipant()) {
             $sender->sendMessage(TF::RED . "El jugador no está participando en la guerra.");
             return;
         }
@@ -53,7 +54,7 @@ class WarKickCommand extends BaseSubCommand
         }
 
         $kickQueueManager->addKickRequest($target->getName(), function () use ($main, $target) {
-            $main->getWarFactory()->removePlayer($target);
+            SessionManager::getInstance()->removePlayer($target);
             $main->getServer()->broadcastMessage(TF::RED . "El jugador " . $target->getName() . " ha sido expulsado de la guerra.");
         });
 

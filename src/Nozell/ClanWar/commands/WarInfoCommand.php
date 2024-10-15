@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Nozell\ClanWar\commands;
 
 use CortexPE\Commando\BaseSubCommand;
+use Nozell\ClanWar\clan\ClanManager;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\utils\Perms;
+use Nozell\ClanWar\utils\WarState;
 
 class WarInfoCommand extends BaseSubCommand
 {
@@ -21,22 +23,22 @@ class WarInfoCommand extends BaseSubCommand
     public function onRun(CommandSender $sender, string $label, array $args): void
     {
         $main = Main::getInstance();
-        if (!$main->getWarFactory()->isWarActive()) {
+        $warState = WarState::getInstance();
+
+        if (!$warState->isWarActive()) {
             $sender->sendMessage(TF::RED . "No hay ninguna guerra activa en este momento.");
             return;
         }
 
-        $timeElapsed = $main->getWarFactory()->getTimeElapsed();
-        $clansAlive = $main->getWarFactory()->getClansAliveCount();
-        $clans = $main->getWarFactory()->getClans();
+        $timeElapsed = $warState->getTimeElapsed();
+        $clans = ClanManager::getInstance()->getAllClans();
 
         $sender->sendMessage(TF::GREEN . "Tiempo transcurrido: " . gmdate("i:s", $timeElapsed));
-        $sender->sendMessage(TF::GREEN . "Clanes vivos: " . $clansAlive);
+        $sender->sendMessage(TF::GREEN . "Clanes vivos: " . count($clans));
 
-        foreach ($clans as $clanName => $members) {
-            $aliveMembers = $main->getWarFactory()->getAlivePlayersInClan($clanName);
-            $aliveCount = count($aliveMembers);
-            $sender->sendMessage(TF::YELLOW . "Clan: " . TF::GOLD . $clanName . TF::YELLOW . " | Miembros vivos: " . TF::GOLD . $aliveCount);
+        foreach ($clans as $clanName => $clan) {
+            $aliveMembers = ClanManager::getInstance()->getClan($clanName)->getPlayerCount();
+            $sender->sendMessage(TF::YELLOW . "Clan: " . TF::GOLD . $clanName . TF::YELLOW . " | Miembros vivos: " . TF::GOLD . $aliveMembers);
         }
     }
 }

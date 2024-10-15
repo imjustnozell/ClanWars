@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nozell\ClanWar\commands;
 
 use CortexPE\Commando\BaseSubCommand;
+use Nozell\ClanWar\arena\Arena;
 use Nozell\ClanWar\Main;
 use Nozell\ClanWar\utils\Perms;
 use pocketmine\command\CommandSender;
@@ -30,7 +31,7 @@ class WarSetArenaCommand extends BaseSubCommand
 
         $pos = $sender->getPosition();
         $arenaCoords = $pos->getX() . "," . $pos->getY() . "," . $pos->getZ();
-        Main::getInstance()->getWarFactory()->setArena($arenaCoords);
+        Arena::getInstance()->setArena($arenaCoords);
         $sender->sendMessage(TF::GREEN . "¡Arena establecida en las coordenadas: $arenaCoords!");
     }
 }
