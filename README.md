@@ -30,6 +30,7 @@ El plugin permite la creación de clanes basados en facciones y organiza guerras
 ### Configuración de Apache
 
 Si tu equipo está utilizando **Apache** para tareas de gestión (por ejemplo, logs o una interfaz administrativa):
+
 - Asegúrate de que Apache esté configurado correctamente en el servidor.
 - Verifica que la carpeta de instalación del plugin tenga los permisos necesarios para lectura/escritura si Apache necesita acceder a archivos generados por el plugin.
 - Si es necesario, configura un **VirtualHost** en Apache para administrar las interfaces del plugin.

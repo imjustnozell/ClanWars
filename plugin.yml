@@ -3,11 +3,14 @@ main: Nozell\ClanWar\Main
 version: 1.0.0
 api: [5.0.0]
 author: Nozell
-description: Un plugin de guerra de clanes.
+website: https://github.com/ImJustNozell
+
+description: Un avanzado plugin de guerra de clanes que permite a los jugadores formar equipos y competir en batallas épicas.
+
 permissions:
   clanwar.default:
-    description: "This permission is for players"
+    description: "Permiso para que los jugadores participen en las guerras de clanes."
     default: true
   clanwar.admin:
-    description: "This permission is only for administrators"
+    description: "Permiso exclusivo para administradores que gestionan las guerras y el plugin."
     default: op
