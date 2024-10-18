@@ -32,7 +32,7 @@ class WarJoinCommand extends BaseSubCommand
         if (!$sender instanceof Player) return;
 
 
-        
+
 
         $factionPlayer = PlayerManager::getInstance()->getSessionByName($sender->getName());
         if (!$factionPlayer instanceof FactionPlayer || !$factionPlayer->inFaction()) {
