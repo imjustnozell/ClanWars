@@ -108,4 +108,9 @@ class WarStartTask extends Task
             $this->getHandler()?->cancel();
         }
     }
+
+    public function TimeToStart(): int
+    {
+        return $this->countdown;
+    }
 }

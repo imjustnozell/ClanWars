@@ -10,7 +10,12 @@ use Lyvaris\ClanWar\listeners\EventListener;
 use CortexPE\Commando\PacketHooker;
 use Lyvaris\ClanWar\listeners\ClansListener;
 use Lyvaris\ClanWar\listeners\WarListener;
+use Lyvaris\ClanWar\placeholders\ClansAlive;
+use Lyvaris\ClanWar\placeholders\MembersCount;
+use Lyvaris\ClanWar\placeholders\WarClanName;
+use Lyvaris\ClanWar\placeholders\WarTimeLapsed;
 use Lyvaris\ClanWar\utils\KickQueueManager;
+use Nozell\PlaceholderAPI\PlaceholderAPI;
 use pocketmine\utils\SingletonTrait;
 
 class Main extends PluginBase
@@ -55,5 +60,17 @@ class Main extends PluginBase
     public function getKickQueueManager(): KickQueueManager
     {
         return $this->kickQueueManager;
+    }
+    private function registerPlaceholders(): void
+    {
+        $placeholders = [
+            new ClansAlive(),
+            new MembersCount(),
+            new WarClanName(),
+            new WarTimeLapsed()
+        ];
+        foreach ($placeholders as $placeholder) {
+            PlaceholderAPI::getRegistry()->registerPlaceholder($placeholder);
+        }
     }
 }
