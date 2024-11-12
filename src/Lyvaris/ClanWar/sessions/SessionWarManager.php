@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Lyvaris\ClanWar\sessions;
 
 use Lyvaris\ClanWar\utils\ScoreboardIds;
-use Nozell\Scoreboard\Session\SessionManager as SessionSessionManager;
+use Nozell\Scoreboard\Session\SessionManager;
 use pocketmine\player\Player;
 use pocketmine\utils\SingletonTrait;
 
-class SessionManager
+class SessionWarManager
 {
     use SingletonTrait;
 
@@ -19,14 +19,14 @@ class SessionManager
     {
         if (!isset($this->sessions[$player->getName()])) {
             $this->sessions[$player->getName()] = new PlayerSession($player);
-            SessionSessionManager::getSession($player)->setScoreboard(ScoreboardIds::Waiting);
+            SessionManager::getSession($player)->setScoreboard(ScoreboardIds::Waiting);
         }
     }
 
     public function removePlayer(Player $player): void
     {
         unset($this->sessions[$player->getName()]);
-        SessionSessionManager::getSession($player)->setScoreboard(ScoreboardIds::Default);
+        SessionManager::getSession($player)->setScoreboard(ScoreboardIds::Default);
     }
 
     public function getPlayerSession(Player $player): ?PlayerSession

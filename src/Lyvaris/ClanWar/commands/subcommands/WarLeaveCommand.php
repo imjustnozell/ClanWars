@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\commands;
+namespace Lyvaris\ClanWar\commands\subcommands;
 
 use CortexPE\Commando\BaseSubCommand;
-use Lyvaris\ClanWar\clan\ClanManager;
 use Lyvaris\ClanWar\events\PlayerEliminateEvent;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionManager;
+use Lyvaris\ClanWar\sessions\SessionWarManager;
 use Lyvaris\ClanWar\utils\Perms;
 
 class WarLeaveCommand extends BaseSubCommand
@@ -27,7 +26,7 @@ class WarLeaveCommand extends BaseSubCommand
 
         if (!$sender instanceof Player) return;
 
-        $session = SessionManager::getInstance()->getPlayerSession($sender);
+        $session = SessionWarManager::getInstance()->getPlayerSession($sender);
 
         if (is_null($session)) return;
 
@@ -37,7 +36,7 @@ class WarLeaveCommand extends BaseSubCommand
             $ev->call();
         } elseif ($session->isSpectator()) {
 
-            SessionManager::getInstance()->removePlayer($sender);
+            SessionWarManager::getInstance()->removePlayer($sender);
             $sender->sendMessage(TF::YELLOW . "Has salido de la guerra como espectador.");
         }
 

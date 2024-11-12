@@ -2,9 +2,9 @@
 
 namespace Lyvaris\ClanWar\utils;
 
-use Lyvaris\ClanWar\sessions\SessionManager;
+use Lyvaris\ClanWar\sessions\SessionWarManager;
 use Nozell\Scoreboard\Factory\ScoreboardFactory;
-use Nozell\Scoreboard\Session\SessionManager as SessionSessionManager;
+use Nozell\Scoreboard\Session\SessionManager;
 use pocketmine\Server;
 use pocketmine\utils\SingletonTrait;
 use pocketmine\utils\TextFormat as TF;
@@ -33,9 +33,9 @@ class WarState
             $this->isActive = true;
             $this->hasEnded = false;
             $this->time = 0 + time();
-            foreach (SessionManager::getInstance()->getAllSessions() as $session) {
+            foreach (SessionWarManager::getInstance()->getAllSessions() as $session) {
                 $player = $session->getPlayer();
-                SessionSessionManager::getSession($player)->setScoreboard(ScoreboardIds::Started);
+                SessionManager::getSession($player)->setScoreboard(ScoreboardIds::Started);
             }
             Server::getInstance()->broadcastMessage(TF::YELLOW . "¡La guerra de clanes ha comenzado!");
             ScoreboardFactory::removeCustomScoreboard(ScoreboardIds::Waiting);

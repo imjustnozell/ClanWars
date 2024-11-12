@@ -4,16 +4,11 @@ namespace Lyvaris\ClanWar\utils;
 
 use Lyvaris\ClanWar\clan\ClanManager;
 use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionManager;
+use Lyvaris\ClanWar\sessions\SessionWarManager;
 use Lyvaris\ClanWar\tasks\WarCelebrate;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
-use pocketmine\world\particle\HugeExplodeParticle;
-use pocketmine\world\particle\HappyVillagerParticle;
-use pocketmine\world\sound\PopSound;
-use pocketmine\world\sound\AnvilFallSound;
 use pocketmine\Server;
-use pocketmine\scheduler\Task;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\SingletonTrait;
 
@@ -28,7 +23,7 @@ class WarUtils
 
         if ($clan !== null) {
             foreach ($clan->getPlayers() as $player) {
-                if ($player instanceof Player && SessionManager::getInstance()->getPlayerSession($player)?->isAlive()) {
+                if ($player instanceof Player && SessionWarManager::getInstance()->getPlayerSession($player)?->isAlive()) {
                     $this->startCelebrationEffects($player);
 
                     $player->sendMessage(TF::GOLD . "¡Felicitaciones! Tu clan ha ganado la guerra de clanes.");
@@ -61,7 +56,7 @@ class WarUtils
             foreach ($clan->getPlayers() as $player) {
                 if ($player instanceof Player) {
                     $player->sendMessage(TF::RED . "Has sido removido del clan $clanName después de la victoria.");
-                    SessionManager::getInstance()->removePlayer($player);
+                    SessionWarManager::getInstance()->removePlayer($player);
                 }
             }
 
@@ -72,7 +67,7 @@ class WarUtils
 
     public function broadcastMessage(string $message): void
     {
-        foreach (SessionManager::getInstance()->getAllSessions() as $session) {
+        foreach (SessionWarManager::getInstance()->getAllSessions() as $session) {
             $session->getPlayer()->sendMessage($message);
         }
     }

@@ -11,7 +11,7 @@ use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionManager;
+use Lyvaris\ClanWar\sessions\SessionWarManager;
 use Lyvaris\ClanWar\utils\Mode;
 use Lyvaris\ClanWar\utils\Perms;
 use Lyvaris\ClanWar\utils\WarState;
@@ -26,13 +26,13 @@ class EventListener implements Listener
     public function onPlayerDeath(PlayerDeathEvent $event): void
     {
         $player = $event->getPlayer();
-        $session = SessionManager::getInstance()->getPlayerSession($player);
+        $session = SessionWarManager::getInstance()->getPlayerSession($player);
 
         $source = $player->getLastDamageCause();
         if (!$source instanceof EntityDamageByEntityEvent) return;
         $killer = $source->getDamager();
         if ($killer instanceof Player) {
-            $killerSession = SessionManager::getInstance()->getPlayerSession($killer);
+            $killerSession = SessionWarManager::getInstance()->getPlayerSession($killer);
         }
 
         if ($session !== null && WarState::getInstance()->isWarActive()) {
@@ -60,7 +60,7 @@ class EventListener implements Listener
     {
         $main = Main::getInstance();
         $player = $event->getPlayer();
-        $session = SessionManager::getInstance()->getPlayerSession($player);
+        $session = SessionWarManager::getInstance()->getPlayerSession($player);
         if (WarState::getInstance()->isWarActive()) {
             $ev = new PlayerEliminateEvent($player, $session->getClanName());
             $ev->call();
@@ -74,8 +74,8 @@ class EventListener implements Listener
         $entity = $event->getEntity();
 
         if ($damager instanceof Player && $entity instanceof Player) {
-            $damagerSession = SessionManager::getInstance()->getPlayerSession($damager);
-            $entitySession = SessionManager::getInstance()->getPlayerSession($entity);
+            $damagerSession = SessionWarManager::getInstance()->getPlayerSession($damager);
+            $entitySession = SessionWarManager::getInstance()->getPlayerSession($entity);
 
             if ($damagerSession !== null && $entitySession !== null && WarState::getInstance()->isWarWaiting()) {
 

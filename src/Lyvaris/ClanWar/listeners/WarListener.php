@@ -11,7 +11,7 @@ use Lyvaris\ClanWar\events\PlayerEliminateEvent;
 use Lyvaris\ClanWar\events\PlayerWarJoinEvent;
 use Lyvaris\ClanWar\events\SetSpectatorEvent;
 use pocketmine\event\Listener;
-use Lyvaris\ClanWar\sessions\SessionManager;
+use Lyvaris\ClanWar\sessions\SessionWarManager;
 use Lyvaris\ClanWar\utils\ClanUtils;
 use Lyvaris\ClanWar\utils\Mode;
 use Lyvaris\ClanWar\utils\WarState;
@@ -27,7 +27,7 @@ class WarListener implements Listener
         $clanName = $ev->getClanName();
         $warState = WarState::getInstance();
         $clanManager = ClanManager::getInstance();
-        $sessionManager = SessionManager::getInstance();
+        $SessionWarManager = SessionWarManager::getInstance();
 
         if (!$warState->isWarWaiting()) {
             $player->sendMessage(TF::RED . "No puedes unirte a la guerra porque ya ha comenzado o no está en estado de espera.");
@@ -35,16 +35,16 @@ class WarListener implements Listener
             return;
         }
 
-        if ($sessionManager->hasPlayerSession($player)) {
-            $playerSession = $sessionManager->getPlayerSession($player);
+        if ($SessionWarManager->hasPlayerSession($player)) {
+            $playerSession = $SessionWarManager->getPlayerSession($player);
             if ($playerSession->isParticipant()) {
                 $player->sendMessage(TF::RED . "Ya estás participando en la guerra.");
                 $ev->cancel();
                 return;
             }
         } else {
-            $sessionManager->addPlayer($player);
-            $sessionManager->getPlayerSession($player)->setClanName($clanName);
+            $SessionWarManager->addPlayer($player);
+            $SessionWarManager->getPlayerSession($player)->setClanName($clanName);
         }
 
         $clan = $clanManager->getClan($clanName);
@@ -62,7 +62,7 @@ class WarListener implements Listener
 
         $clanManager->addPlayerToClan($clanName, $player);
 
-        $playerSession = $sessionManager->getPlayerSession($player);
+        $playerSession = $SessionWarManager->getPlayerSession($player);
         $playerSession->setRole(Mode::Participant);
         $playerSession->applyGameMode();
 
@@ -77,8 +77,8 @@ class WarListener implements Listener
         $clanName = $ev->getClanName();
         $player->sendMessage("Has sido eliminado de la guerra de clanes.");
         $clanManager = ClanManager::getInstance();
-        $sessionManager = SessionManager::getInstance();
-        $session = $sessionManager->getPlayerSession($player);
+        $SessionWarManager = SessionWarManager::getInstance();
+        $session = $SessionWarManager->getPlayerSession($player);
 
         if ($session !== null) {
 
@@ -86,7 +86,7 @@ class WarListener implements Listener
             $session->applyGameMode();
             $session->sendToLobby();
 
-            $sessionManager->removePlayer($player);
+            $SessionWarManager->removePlayer($player);
 
             if ($clanManager->clanExists($clanName)) {
                 $clanManager->removePlayerFromClan($clanName, $player);
@@ -104,10 +104,11 @@ class WarListener implements Listener
     {
         $player = $ev->getPlayer();
 
-        if (is_null($player)) {
-            SessionManager::getInstance()->addPlayer($player);
+        if (!is_null($player)) {
 
-            $session = SessionManager::getInstance()->getPlayerSession($player);
+            SessionWarManager::getInstance()->addPlayer($player);
+
+            $session = SessionWarManager::getInstance()->getPlayerSession($player);
             $session->setRole(Mode::Spectator);
             $session->applyGameMode();
 

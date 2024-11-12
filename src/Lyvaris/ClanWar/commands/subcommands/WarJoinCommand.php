@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\commands;
+namespace Lyvaris\ClanWar\commands\subcommands;
 
 use CortexPE\Commando\BaseSubCommand;
 use Lyvaris\ClanWar\events\PlayerWarJoinEvent;

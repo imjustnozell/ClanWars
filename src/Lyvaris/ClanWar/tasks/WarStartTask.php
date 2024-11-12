@@ -8,7 +8,7 @@ use Lyvaris\ClanWar\clan\ClanManager;
 use pocketmine\scheduler\Task;
 use pocketmine\utils\TextFormat as TF;
 use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionManager;
+use Lyvaris\ClanWar\sessions\SessionWarManager;
 use Lyvaris\ClanWar\utils\ClanUtils;
 use Lyvaris\ClanWar\utils\WarState;
 use Lyvaris\ClanWar\utils\WarUtils;
@@ -33,7 +33,7 @@ class WarStartTask extends Task
     {
         $main = Main::getInstance();
         $clanManager = ClanManager::getInstance();
-        $sessionManager = SessionManager::getInstance();
+        $SessionWarManager = SessionWarManager::getInstance();
 
         if ($this->countdown > 0) {
 
@@ -51,7 +51,7 @@ class WarStartTask extends Task
                 foreach (Server::getInstance()->getOnlinePlayers() as $player) {
 
 
-                    $session = $sessionManager->getPlayerSession($player);
+                    $session = $SessionWarManager->getPlayerSession($player);
                     if ($session !== null && $session->isParticipant()) {
 
 

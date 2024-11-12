@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\commands;
+namespace Lyvaris\ClanWar\commands\subcommands;
 
 use CortexPE\Commando\args\RawStringArgument;
-use CortexPE\Commando\args\TargetPlayerArgument;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionManager;
+use Lyvaris\ClanWar\sessions\SessionWarManager;
 use Lyvaris\ClanWar\utils\Perms;
 use pocketmine\Server;
 
@@ -41,7 +40,7 @@ class WarKickCommand extends BaseSubCommand
             return;
         }
 
-        $session = SessionManager::getInstance()->getPlayerSession($target);
+        $session = SessionWarManager::getInstance()->getPlayerSession($target);
         if (is_null($session) || !$session->isParticipant()) {
             $sender->sendMessage(TF::RED . "El jugador no está participando en la guerra.");
             return;
@@ -54,7 +53,7 @@ class WarKickCommand extends BaseSubCommand
         }
 
         $kickQueueManager->addKickRequest($target->getName(), function () use ($main, $target) {
-            SessionManager::getInstance()->removePlayer($target);
+            SessionWarManager::getInstance()->removePlayer($target);
             $main->getServer()->broadcastMessage(TF::RED . "El jugador " . $target->getName() . " ha sido expulsado de la guerra.");
         });
 
