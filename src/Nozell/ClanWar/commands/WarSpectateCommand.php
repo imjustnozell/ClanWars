@@ -10,9 +10,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
-use Nozell\ClanWar\sessions\PlayerSession;
-use Nozell\ClanWar\sessions\SessionManager;
-use Nozell\ClanWar\utils\Mode;
 use Nozell\ClanWar\utils\Perms;
 use Nozell\ClanWar\utils\WarState;
 

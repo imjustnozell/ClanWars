@@ -10,9 +10,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use Nozell\ClanWar\Main;
-use Nozell\ClanWar\sessions\SessionManager;
 use Nozell\ClanWar\utils\Perms;
-use Nozell\ClanWar\utils\WarState;
 use rxduz\factions\player\FactionPlayer;
 use rxduz\factions\player\PlayerManager;
 use rxduz\factions\faction\FactionManager;
@@ -31,9 +29,6 @@ class WarJoinCommand extends BaseSubCommand
 
         if (!$sender instanceof Player) return;
 
-
-
-
         $factionPlayer = PlayerManager::getInstance()->getSessionByName($sender->getName());
         if (!$factionPlayer instanceof FactionPlayer || !$factionPlayer->inFaction()) {
             $sender->sendMessage(TF::RED . "No puedes unirte a la guerra si no perteneces a una facción.");
@@ -44,10 +39,7 @@ class WarJoinCommand extends BaseSubCommand
         $faction = FactionManager::getInstance()->getFactionByName($factionName);
 
 
-        if ($faction === null) {
-            $sender->sendMessage(TF::RED . "Hubo un error al intentar obtener tu facción. Inténtalo de nuevo.");
-            return;
-        }
+        if ($faction === null) return;
 
         $ev = new PlayerWarJoinEvent($sender, $factionName);
         $ev->call();

@@ -11,21 +11,19 @@ use Nozell\ClanWar\Main;
 use Nozell\ClanWar\sessions\SessionManager;
 use Nozell\ClanWar\utils\ClanUtils;
 use Nozell\ClanWar\utils\WarState;
+use Nozell\ClanWar\utils\WarUtils;
 use pocketmine\Server;
 use pocketmine\world\sound\XpCollectSound;
 
-class WarStartCountdownTask extends Task
+class WarStartTask extends Task
 {
     private int $countdown;
 
     public function __construct(int $countdown)
     {
         $this->countdown = $countdown;
-        $main = Main::getInstance();
 
-
-        WarState::getInstance()->setActive();
-
+        WarState::getInstance()->setWaiting();
 
         Server::getInstance()->broadcastMessage(TF::YELLOW . "La guerra está en espera. Tiempo restante: " . $this->countdown . " segundos.");
         Server::getInstance()->broadcastMessage(TF::GOLD . "Asegúrate de que tu clan tenga al menos " . ClanUtils::HeightMembers . " miembros para participar.");
@@ -87,7 +85,7 @@ class WarStartCountdownTask extends Task
 
                     if (is_null($onlinePlayer)) {
                         $clanManager->removePlayerFromClan($clanName, $player);
-                        $main->getWarFactory()->broadcastMessage(TF::RED . "El jugador $playerName ha sido eliminado del clan $clanName por no estar online.");
+                        WarUtils::getInstance()->broadcastMessage(TF::RED . "El jugador $playerName ha sido eliminado del clan $clanName por no estar online.");
                     }
                 }
 
@@ -100,7 +98,7 @@ class WarStartCountdownTask extends Task
 
 
             if (count($clanManager->getAllClans()) > 0) {
-                $main->getWarFactory()->startWar();
+                WarState::getInstance()->setActive();
                 Server::getInstance()->broadcastMessage(TF::GREEN . "¡La guerra de clanes ha comenzado!");
             } else {
                 Server::getInstance()->broadcastMessage(TF::RED . "No hay suficientes clanes para iniciar la guerra.");
