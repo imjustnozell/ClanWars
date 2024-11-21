@@ -4,7 +4,7 @@ version: 1.0.0
 api: [5.0.0]
 author: Nozell
 website: https://github.com/imjustnozell/ClanWars
-depend: [PlaceholderAPI]
+depend: [PlaceholderAPI, DinamicScoreboard]
 
 description: Un avanzado plugin de guerra de clanes que permite a los jugadores formar equipos y competir en batallas épicas.
 
