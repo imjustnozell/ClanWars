@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\listeners;
+namespace Nozell\ClanWar\listeners;
 
-use Lyvaris\ClanWar\clan\ClanManager;
-use Lyvaris\ClanWar\events\ClanCreateEvent;
-use Lyvaris\ClanWar\events\ClanEliminateEvent;
-use Lyvaris\ClanWar\utils\WarUtils;
+use Nozell\ClanWar\clan\ClanManager;
+use Nozell\ClanWar\events\ClanCreateEvent;
+use Nozell\ClanWar\events\ClanEliminateEvent;
+use Nozell\ClanWar\utils\WarUtils;
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat as TF;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\sessions;
+namespace Nozell\ClanWar\sessions;
 
-use Lyvaris\ClanWar\utils\ScoreboardIds;
+use Nozell\ClanWar\utils\ScoreboardIds;
 use Nozell\Scoreboard\Session\SessionManager;
 use pocketmine\player\Player;
 use pocketmine\utils\SingletonTrait;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyvaris\ClanWar\interfaces;
+namespace Nozell\ClanWar\interfaces;
 
 use pocketmine\player\Player;
 

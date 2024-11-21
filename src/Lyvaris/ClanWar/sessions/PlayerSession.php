@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\sessions;
+namespace Nozell\ClanWar\sessions;
 
-use Lyvaris\ClanWar\utils\Mode;
+use Nozell\ClanWar\utils\Mode;
 use pocketmine\player\Player;
 use pocketmine\player\GameMode;
 

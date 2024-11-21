@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyvaris\ClanWar\arena;
+namespace Nozell\ClanWar\arena;
 
 use pocketmine\player\Player;
 use pocketmine\world\Position;

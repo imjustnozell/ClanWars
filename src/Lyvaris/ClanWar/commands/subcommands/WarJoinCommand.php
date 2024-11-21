@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\commands\subcommands;
+namespace Nozell\ClanWar\commands\subcommands;
 
 use CortexPE\Commando\BaseSubCommand;
-use Lyvaris\ClanWar\events\PlayerWarJoinEvent;
+use Nozell\ClanWar\events\PlayerWarJoinEvent;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
-use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\utils\Perms;
+use Nozell\ClanWar\Main;
+use Nozell\ClanWar\utils\Perms;
 use rxduz\factions\player\FactionPlayer;
 use rxduz\factions\player\PlayerManager;
 use rxduz\factions\faction\FactionManager;

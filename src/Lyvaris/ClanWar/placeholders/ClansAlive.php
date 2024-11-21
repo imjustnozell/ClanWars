@@ -1,8 +1,8 @@
 <?php
 
-namespace Lyvaris\ClanWar\placeholders;
+namespace Nozell\ClanWar\placeholders;
 
-use Lyvaris\ClanWar\clan\ClanManager;
+use Nozell\ClanWar\clan\ClanManager;
 use Nozell\PlaceholderAPI\placeholders\ServerPlaceholder;
 
 class ClansAlive  extends ServerPlaceholder

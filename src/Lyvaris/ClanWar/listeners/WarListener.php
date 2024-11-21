@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\listeners;
+namespace Nozell\ClanWar\listeners;
 
-use Lyvaris\ClanWar\arena\Arena;
-use Lyvaris\ClanWar\clan\ClanManager;
-use Lyvaris\ClanWar\events\ClanCreateEvent;
-use Lyvaris\ClanWar\events\PlayerEliminateEvent;
-use Lyvaris\ClanWar\events\PlayerWarJoinEvent;
-use Lyvaris\ClanWar\events\SetSpectatorEvent;
+use Nozell\ClanWar\arena\Arena;
+use Nozell\ClanWar\clan\ClanManager;
+use Nozell\ClanWar\events\ClanCreateEvent;
+use Nozell\ClanWar\events\PlayerEliminateEvent;
+use Nozell\ClanWar\events\PlayerWarJoinEvent;
+use Nozell\ClanWar\events\SetSpectatorEvent;
 use pocketmine\event\Listener;
-use Lyvaris\ClanWar\sessions\SessionWarManager;
-use Lyvaris\ClanWar\utils\ClanUtils;
-use Lyvaris\ClanWar\utils\Mode;
-use Lyvaris\ClanWar\utils\WarState;
-use Lyvaris\ClanWar\utils\WarUtils;
+use Nozell\ClanWar\sessions\SessionWarManager;
+use Nozell\ClanWar\utils\ClanUtils;
+use Nozell\ClanWar\utils\Mode;
+use Nozell\ClanWar\utils\WarState;
+use Nozell\ClanWar\utils\WarUtils;
 use pocketmine\utils\TextFormat as TF;
 
 class WarListener implements Listener

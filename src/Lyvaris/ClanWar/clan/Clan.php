@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\clan;
+namespace Nozell\ClanWar\clan;
 
 use pocketmine\player\Player;
 

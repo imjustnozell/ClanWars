@@ -1,9 +1,9 @@
 name: ClanWar
-main: Lyvaris\ClanWar\Main
+main: Nozell\ClanWar\Main
 version: 1.0.0
 api: [5.0.0]
 author: Lyvaris
-website: https://github.com/Lyvaris
+website: https://github.com/imjustnozell/ClanWars
 
 description: Un avanzado plugin de guerra de clanes que permite a los jugadores formar equipos y competir en batallas épicas.
 

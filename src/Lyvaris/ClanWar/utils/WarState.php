@@ -1,8 +1,8 @@
 <?php
 
-namespace Lyvaris\ClanWar\utils;
+namespace Nozell\ClanWar\utils;
 
-use Lyvaris\ClanWar\sessions\SessionWarManager;
+use Nozell\ClanWar\sessions\SessionWarManager;
 use Nozell\Scoreboard\Factory\ScoreboardFactory;
 use Nozell\Scoreboard\Session\SessionManager;
 use pocketmine\Server;

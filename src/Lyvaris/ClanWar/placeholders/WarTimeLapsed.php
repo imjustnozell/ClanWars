@@ -1,8 +1,8 @@
 <?php
 
-namespace Lyvaris\ClanWar\placeholders;
+namespace Nozell\ClanWar\placeholders;
 
-use Lyvaris\ClanWar\utils\WarState;
+use Nozell\ClanWar\utils\WarState;
 use Nozell\PlaceholderAPI\placeholders\ServerPlaceholder;
 
 class WarTimeLapsed  extends ServerPlaceholder

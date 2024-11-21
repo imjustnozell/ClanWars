@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\listeners;
+namespace Nozell\ClanWar\listeners;
 
-use Lyvaris\ClanWar\clan\ClanManager;
-use Lyvaris\ClanWar\events\PlayerEliminateEvent;
+use Nozell\ClanWar\clan\ClanManager;
+use Nozell\ClanWar\events\PlayerEliminateEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
-use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionWarManager;
-use Lyvaris\ClanWar\utils\Mode;
-use Lyvaris\ClanWar\utils\Perms;
-use Lyvaris\ClanWar\utils\WarState;
-use Lyvaris\ClanWar\utils\WarUtils;
+use Nozell\ClanWar\Main;
+use Nozell\ClanWar\sessions\SessionWarManager;
+use Nozell\ClanWar\utils\Mode;
+use Nozell\ClanWar\utils\Perms;
+use Nozell\ClanWar\utils\WarState;
+use Nozell\ClanWar\utils\WarUtils;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\player\Player;

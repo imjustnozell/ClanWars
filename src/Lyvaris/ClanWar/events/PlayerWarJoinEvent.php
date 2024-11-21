@@ -1,10 +1,10 @@
 <?php
 
-namespace Lyvaris\ClanWar\events;
+namespace Nozell\ClanWar\events;
 
 use pocketmine\event\Event;
 use pocketmine\player\Player;
-use Lyvaris\ClanWar\interfaces\ClanWarEventInterface;
+use Nozell\ClanWar\interfaces\ClanWarEventInterface;
 use pocketmine\event\Cancellable;
 use pocketmine\event\CancellableTrait;
 

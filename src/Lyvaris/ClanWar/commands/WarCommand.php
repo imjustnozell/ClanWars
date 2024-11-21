@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\commands;
+namespace Nozell\ClanWar\commands;
 
 use CortexPE\Commando\BaseCommand;
-use Lyvaris\ClanWar\commands\subcommands\WarInfoCommand;
-use Lyvaris\ClanWar\commands\subcommands\WarJoinCommand;
-use Lyvaris\ClanWar\commands\subcommands\WarKickCommand;
-use Lyvaris\ClanWar\commands\subcommands\WarLeaveCommand;
-use Lyvaris\ClanWar\commands\subcommands\WarSetArenaCommand;
-use Lyvaris\ClanWar\commands\subcommands\WarSpectateCommand;
-use Lyvaris\ClanWar\commands\subcommands\WarStartCommand;
+use Nozell\ClanWar\commands\subcommands\WarInfoCommand;
+use Nozell\ClanWar\commands\subcommands\WarJoinCommand;
+use Nozell\ClanWar\commands\subcommands\WarKickCommand;
+use Nozell\ClanWar\commands\subcommands\WarLeaveCommand;
+use Nozell\ClanWar\commands\subcommands\WarSetArenaCommand;
+use Nozell\ClanWar\commands\subcommands\WarSpectateCommand;
+use Nozell\ClanWar\commands\subcommands\WarStartCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as TF;
-use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\utils\Perms;
+use Nozell\ClanWar\Main;
+use Nozell\ClanWar\utils\Perms;
 
 class WarCommand extends BaseCommand
 {

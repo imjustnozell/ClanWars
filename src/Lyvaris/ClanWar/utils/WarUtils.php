@@ -1,11 +1,11 @@
 <?php
 
-namespace Lyvaris\ClanWar\utils;
+namespace Nozell\ClanWar\utils;
 
-use Lyvaris\ClanWar\clan\ClanManager;
-use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionWarManager;
-use Lyvaris\ClanWar\tasks\WarCelebrate;
+use Nozell\ClanWar\clan\ClanManager;
+use Nozell\ClanWar\Main;
+use Nozell\ClanWar\sessions\SessionWarManager;
+use Nozell\ClanWar\tasks\WarCelebrate;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as TF;
 use pocketmine\Server;

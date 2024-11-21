@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\commands\subcommands;
+namespace Nozell\ClanWar\commands\subcommands;
 
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as TF;
-use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\tasks\WarStartTask;
-use Lyvaris\ClanWar\utils\ClanUtils;
-use Lyvaris\ClanWar\utils\Perms;
-use Lyvaris\ClanWar\utils\WarState;
+use Nozell\ClanWar\Main;
+use Nozell\ClanWar\tasks\WarStartTask;
+use Nozell\ClanWar\utils\ClanUtils;
+use Nozell\ClanWar\utils\Perms;
+use Nozell\ClanWar\utils\WarState;
 
 class WarStartCommand extends BaseSubCommand
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\utils;
+namespace Nozell\ClanWar\utils;
 
 class KickQueueManager
 {

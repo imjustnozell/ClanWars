@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\events;
+namespace Nozell\ClanWar\events;
 
 use pocketmine\event\Event;
 

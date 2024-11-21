@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\tasks;
+namespace Nozell\ClanWar\tasks;
 
 use pocketmine\scheduler\Task;
 use pocketmine\world\particle\HappyVillagerParticle;

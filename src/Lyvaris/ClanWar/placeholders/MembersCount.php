@@ -1,9 +1,9 @@
 <?php
 
-namespace Lyvaris\ClanWar\placeholders;
+namespace Nozell\ClanWar\placeholders;
 
-use Lyvaris\ClanWar\clan\ClanManager;
-use Lyvaris\ClanWar\sessions\SessionWarManager;
+use Nozell\ClanWar\clan\ClanManager;
+use Nozell\ClanWar\sessions\SessionWarManager;
 use Nozell\PlaceholderAPI\placeholders\PlayerPlaceholder;
 use pocketmine\player\Player;
 

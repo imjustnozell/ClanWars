@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar;
+namespace Nozell\ClanWar;
 
 use pocketmine\plugin\PluginBase;
-use Lyvaris\ClanWar\commands\WarCommand;
-use Lyvaris\ClanWar\listeners\EventListener;
+use Nozell\ClanWar\commands\WarCommand;
+use Nozell\ClanWar\listeners\EventListener;
 use CortexPE\Commando\PacketHooker;
-use Lyvaris\ClanWar\listeners\ClansListener;
-use Lyvaris\ClanWar\listeners\WarListener;
-use Lyvaris\ClanWar\placeholders\ClansAlive;
-use Lyvaris\ClanWar\placeholders\MembersCount;
-use Lyvaris\ClanWar\placeholders\WarClanName;
-use Lyvaris\ClanWar\placeholders\WarTimeLapsed;
-use Lyvaris\ClanWar\utils\KickQueueManager;
+use Nozell\ClanWar\listeners\ClansListener;
+use Nozell\ClanWar\listeners\WarListener;
+use Nozell\ClanWar\placeholders\ClansAlive;
+use Nozell\ClanWar\placeholders\MembersCount;
+use Nozell\ClanWar\placeholders\WarClanName;
+use Nozell\ClanWar\placeholders\WarTimeLapsed;
+use Nozell\ClanWar\utils\KickQueueManager;
 use Nozell\PlaceholderAPI\PlaceholderAPI;
 use pocketmine\utils\SingletonTrait;
 

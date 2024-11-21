@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Lyvaris\ClanWar\tasks;
+namespace Nozell\ClanWar\tasks;
 
-use Lyvaris\ClanWar\clan\ClanManager;
+use Nozell\ClanWar\clan\ClanManager;
 use pocketmine\scheduler\Task;
 use pocketmine\utils\TextFormat as TF;
-use Lyvaris\ClanWar\Main;
-use Lyvaris\ClanWar\sessions\SessionWarManager;
-use Lyvaris\ClanWar\utils\ClanUtils;
-use Lyvaris\ClanWar\utils\WarState;
-use Lyvaris\ClanWar\utils\WarUtils;
+use Nozell\ClanWar\Main;
+use Nozell\ClanWar\sessions\SessionWarManager;
+use Nozell\ClanWar\utils\ClanUtils;
+use Nozell\ClanWar\utils\WarState;
+use Nozell\ClanWar\utils\WarUtils;
 use pocketmine\Server;
 use pocketmine\world\sound\XpCollectSound;
 

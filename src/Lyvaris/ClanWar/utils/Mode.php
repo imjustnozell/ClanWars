@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyvaris\ClanWar\utils;
+namespace Nozell\ClanWar\utils;
 
 final class Mode
 {
